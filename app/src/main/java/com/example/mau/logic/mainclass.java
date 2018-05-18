@@ -4,31 +4,82 @@ package com.example.mau.logic;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/**
+ *
+ * @author camila
+ */
+
+import java.util.*;
+import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-
-public class Generator {
+public class mainclass {
 
     static ArrayList<EquationVariables> variableArray = new ArrayList<>();
     static ArrayList<Object> equationArray = new ArrayList<>();
 
-    /**
-     * The program starts here. The main method parses a String user input.
-     * Letters are stored in EquationVariables, and other characters are stored as Characters
-     * EquationVariables are placed in a variable array; duplicate letters are only added once
-     * Everything is placed in an Equation array
-     * @param args
-     */
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+    static Boolean merging(logic_base source){
+        String old = source.get_result();
+        source.merge_items("+");
+        source.merge_items("*");
+        return !old.equals(source.get_result());
+    }
+    static ArrayList<String> run (String input){
+        ArrayList<String> all = new ArrayList<String>();
+        //all.add(input);
 
-        //Reads in the equation and creates variables for all letters
+        ordering zero = new ordering(input);
+        while(zero.run()){
+            zero = new ordering(zero.get_result());
+        }
+        merging(zero);
 
-        System.out.println("Enter equation here using * for 'and', + for 'or', and ! for 'not': ");
-        System.out.println("Use this format: a * b + !c * !a  (spaces do not matter/uppercase A is the same as lowercase a)");
-        String equation = input.nextLine();
-        //removes spaces and upper-case letters from the user input
+        replace_iff one = new replace_iff(zero.get_result());
+        one.run();
+        all.add(one.get_result());
+        merging(one);
+
+        replace_imp two = new replace_imp(one.get_result());
+        two.run();
+        all.add(two.get_result());
+        merging(two);
+
+        de_morgan three = new de_morgan(two.get_result());
+        while(three.run()){
+            three = new de_morgan(three.get_result());
+        }
+        all.add(three.get_result());
+        merging(three);
+
+        distributive four = new distributive(three.get_result());
+        while(four.run()){
+            four = new distributive(four.get_result());
+        }
+        merging(four);
+
+        simplification five = new simplification(four.get_result());
+        five.run();
+        all.add(five.get_result());
+
+        return all;
+    }
+
+    public static void read(String line) {
+        //String line;
+        //Scanner scanner=new Scanner(System.in);
+        //line=scanner.nextLine();
+        ArrayList<String> tmps = run(line);
+        for(String tmp:tmps)
+        {
+            System.out.println(tmp);
+        }
+
+        String equation=tmps.get(tmps.size() - 1);
+        equation = Bridge.tokenize(equation);
+
         equation = equation.replaceAll(" ", "");
         equation = equation.toLowerCase();
         int counter = 1;
@@ -59,7 +110,6 @@ public class Generator {
                 equationArray.add(equation.charAt(i));
             }
         }
-        input.close();
 
         if (variableArray.size() > 0){
             //Creates an instance of the truth table class with the proper parameters
@@ -69,5 +119,4 @@ public class Generator {
             System.out.println("No variables found");
         }
     }
-
 }

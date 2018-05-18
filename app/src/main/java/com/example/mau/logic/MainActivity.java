@@ -24,14 +24,10 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> tmps = new ArrayList<String>();
 
         //Leer formula dada y pasar al generador de tablas
-        EditText textArea = (EditText) findViewById(R.id.editText);
+        EditText textArea = findViewById(R.id.editText);
         input = textArea.getText().toString();
-        tmps = Fnc.run(input);
 
-        for(String tmp:tmps){
-            System.out.println(tmp);
-        }
-        Generator.Read(tmps.get(tmps.size() - 1));
+        mainclass.read(input);
 
         //Mostrar mensaje
         Context context = getApplicationContext();
