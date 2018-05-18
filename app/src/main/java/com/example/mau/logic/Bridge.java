@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Bridge {
 
+
     public static ArrayList<String> tokenize(String equation){
-        String[] cad = equation.split("\\(+");
+        String[] cad = equation.split("\\)+");
 
         System.out.println("Cad");
         for (String aCad : cad) System.out.println(aCad);
@@ -14,28 +15,37 @@ public class Bridge {
     }
 
     public static ArrayList<String> Build(String[] cad){
-        StringBuilder maker = new StringBuilder();
         ArrayList<String> formulas = new ArrayList<String>();
 
         //Quitar parentesis ) y operadores al final
         for (String aCad : cad) {
-            if (aCad.contains(")")) {
-                formulas.add(aCad.replaceAll("\\)+\\s*[+*]*", ""));
+            if (aCad.contains("(")) {
+                formulas.add(aCad.replaceAll("[+*]*\\s*[+*]*\\(+", ""));
             }
+
+            else if(aCad.matches("\\s*.*[a-zA-z]\\s*[+*]+\\s*[a-zA-Z]\\s*")){
+                String[] split = aCad.split("[+*]");
+                for (String x: split) {
+                    if(!(x.isEmpty()) && !(x.equals(" ")))
+                        formulas.add(x);
+                }
+
+            }
+
             else if(aCad.contains("+")){
                 //if (aCad.matches(".+\\s*[+*]+\\s*")) {
-                    //formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("+", "")));
+                //formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("+", "")));
 
-                    formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("+", "")));
-                }
+                formulas.add(aCad.replace("+", ""));
+            }
             else if(aCad.contains("*")){
                 //if (aCad.matches(".+\\s*[+*]+\\s*")) {
                 //formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("+", "")));
 
-                formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("*", "")));
+                formulas.add(aCad.replace("*", ""));
             }
 
-            else{
+            else if(!(aCad.isEmpty())){
                 formulas.add(aCad);
             }
         }
@@ -49,6 +59,7 @@ public class Bridge {
     }
 
     public static void main(String[] args){
-        Bridge.tokenize("(! a + b) * (! c + (d * x)) + (! f + (g + (h * ! h))) + (p'* ! q * r)");
+        Bridge.tokenize("(! (a + b) * (c * d)) * d + f");
+        //Bridge.tokenize("(! a + b) * c");
     }
 }

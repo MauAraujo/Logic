@@ -20,7 +20,9 @@ public class mainclass {
 
     static ArrayList<EquationVariables> variableArray = new ArrayList<>();
     static ArrayList<Object> equationArray = new ArrayList<>();
-    static ArrayList<String[]> todo = new ArrayList<String[]>();
+    static ArrayList<ArrayList> todo = new ArrayList<ArrayList>();
+    public static ArrayList<String> formulas;
+    public static String complete_formula;
 
     static Boolean merging(logic_base source){
         String old = source.get_result();
@@ -68,9 +70,16 @@ public class mainclass {
         return all;
     }
     public static void read(String equation){
-        ArrayList<String> formulas;
 
-        formulas = Bridge.tokenize(equation);
+        ArrayList<String> tmps = run(equation);
+        for(String tmp:tmps)
+        {
+            System.out.println(tmp);
+        }
+
+        complete_formula = tmps.get(tmps.size() - 1);
+
+        formulas = Bridge.tokenize(tmps.get(tmps.size() - 1));
 
         System.out.println("Resultado de tokenizer");
         for (String form: formulas) {
@@ -79,21 +88,20 @@ public class mainclass {
 
         for (String form: formulas) {
            generateTable(form);
-            todo.add((String[])(TruthTableGUI.result.toArray()));
+            todo.add(TruthTableGUI.result);
         }
 
     }
-    public static void generateTable(String line) {
+    public static void generateTable(String equation) {
         //String line;
         //Scanner scanner=new Scanner(System.in);
         //line=scanner.nextLine();
-        ArrayList<String> tmps = run(line);
-        for(String tmp:tmps)
-        {
-            System.out.println(tmp);
-        }
-
-        String equation=tmps.get(tmps.size() - 1);
+        //ArrayList<String> tmps = run(line);
+        //for(String tmp:tmps)
+        //{
+            //System.out.println(tmp);
+        //}
+        //read(equation);
 
         equation = equation.replaceAll(" ", "");
         equation = equation.toLowerCase();
@@ -130,8 +138,15 @@ public class mainclass {
             //Creates an instance of the truth table class with the proper parameters
             TruthTableGUI table = new TruthTableGUI(variableArray, equationArray);
             table.constructTable();
+            variableArray.clear();
+            equationArray.clear();
         }else{
             System.out.println("No variables found");
         }
+    }
+
+    public static void main(String[] args){
+        String input = "(a imp b) * c";
+        read(input);
     }
 }

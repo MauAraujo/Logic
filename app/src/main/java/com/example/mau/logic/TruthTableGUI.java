@@ -138,7 +138,7 @@ public class TruthTableGUI {
      */
     private boolean fail(){
         System.out.println();
-        System.out.println("Invalid String");
+        System.out.println("Invalid String (fail method)");
         return false;
     }
 }

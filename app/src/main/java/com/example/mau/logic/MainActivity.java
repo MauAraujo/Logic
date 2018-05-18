@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         EditText textArea = findViewById(R.id.editText);
         input = textArea.getText().toString();
 
-        mainclass.generateTable(input);
+        mainclass.read(input);
 
         //Mostrar mensaje
         Context context = getApplicationContext();

@@ -8,8 +8,18 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="352dp"
-        android:layout_height="480dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_width="361dp"
+        android:layout_height="506dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLines = "50"
+        android:scrollbars = "vertical"/>
 </android.support.constraint.ConstraintLayout>
