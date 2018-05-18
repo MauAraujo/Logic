@@ -80,6 +80,7 @@ public class mainclass {
         complete_formula = tmps.get(tmps.size() - 1);
 
         formulas = Bridge.tokenize(tmps.get(tmps.size() - 1));
+        formulas.add(Bridge.removeParen(complete_formula));
 
         System.out.println("Resultado de tokenizer");
         for (String form: formulas) {

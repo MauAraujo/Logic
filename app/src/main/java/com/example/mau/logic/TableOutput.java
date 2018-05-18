@@ -27,7 +27,6 @@ public class TableOutput extends AppCompatActivity {
             i++;
         }
 
-        textView.append("\n" + mainclass.complete_formula + "\n");
     }
 
     @Override

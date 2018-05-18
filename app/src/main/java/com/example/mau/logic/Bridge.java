@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Bridge {
 
-
     public static ArrayList<String> tokenize(String equation){
         String[] cad = equation.split("\\)+");
 
@@ -56,6 +55,14 @@ public class Bridge {
         }
 
         return formulas;
+    }
+
+    public static String removeParen(String complete_formula){
+        String result;
+        result = complete_formula.replace(")", "");
+        result = result.replace("(", "");
+
+        return result;
     }
 
     public static void main(String[] args){
