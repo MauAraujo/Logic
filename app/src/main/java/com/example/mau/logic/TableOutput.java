@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class TableOutput extends AppCompatActivity {
 
     @Override
@@ -14,8 +16,11 @@ public class TableOutput extends AppCompatActivity {
         setContentView(R.layout.activity_table_output);
         TextView textView = (TextView) findViewById(R.id.textView);
 
-        for(int i = 0; i < TruthTableGUI.result.size(); i++) {
-            textView.append(TruthTableGUI.result.get(i));
+        for (String[] columna: mainclass.todo) {
+           for(int i = 0; i < columna.length; i++){
+               //textView.append(columna[i]);
+               System.out.println(columna[i]);
+           }
         }
     }
 

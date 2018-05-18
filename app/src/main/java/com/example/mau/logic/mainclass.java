@@ -20,6 +20,7 @@ public class mainclass {
 
     static ArrayList<EquationVariables> variableArray = new ArrayList<>();
     static ArrayList<Object> equationArray = new ArrayList<>();
+    static ArrayList<String[]> todo = new ArrayList<String[]>();
 
     static Boolean merging(logic_base source){
         String old = source.get_result();
@@ -66,8 +67,23 @@ public class mainclass {
 
         return all;
     }
+    public static void read(String equation){
+        ArrayList<String> formulas;
 
-    public static void read(String line) {
+        formulas = Bridge.tokenize(equation);
+
+        System.out.println("Resultado de tokenizer");
+        for (String form: formulas) {
+            System.out.println(form);
+        }
+
+        for (String form: formulas) {
+           generateTable(form);
+            todo.add((String[])(TruthTableGUI.result.toArray()));
+        }
+
+    }
+    public static void generateTable(String line) {
         //String line;
         //Scanner scanner=new Scanner(System.in);
         //line=scanner.nextLine();
@@ -78,7 +94,6 @@ public class mainclass {
         }
 
         String equation=tmps.get(tmps.size() - 1);
-        equation = Bridge.tokenize(equation);
 
         equation = equation.replaceAll(" ", "");
         equation = equation.toLowerCase();
