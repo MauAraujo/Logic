@@ -4,13 +4,38 @@ import java.util.ArrayList;
 
 public class Bridge {
 
+    public static ArrayList<String> atoms = new ArrayList<String>();
+    public static ArrayList<String> forms;
+
     public static ArrayList<String> tokenize(String equation){
         String[] cad = equation.split("\\)+");
+        String[] atomos = equation.split("[+*]");
+        ArrayList<String> res = new ArrayList<String>();
+        ArrayList<String> temp;
 
         System.out.println("Cad");
         for (String aCad : cad) System.out.println(aCad);
 
-        return Build(cad);
+        System.out.println("Atomos");
+        for (String atomo : atomos) System.out.println(atomo);
+
+        temp = Build(atomos);
+        for (String atomo:temp) {
+            atoms.add(removeParen(atomo));
+        }
+
+        temp.clear();
+        temp = Build(cad);
+        forms = temp;
+        res.addAll(atoms);
+        res.addAll(temp);
+
+        System.out.println("Final list");
+        for (String atomo:res) {
+            System.out.println(atomo);
+        }
+
+        return res;
     }
 
     public static ArrayList<String> Build(String[] cad){
@@ -31,6 +56,10 @@ public class Bridge {
 
             }
 
+            else if(aCad.contains("!")){
+                formulas.add(aCad.replaceAll("\\s*!\\s*!\\s*", "!"));
+            }
+
             else if(aCad.contains("+")){
                 //if (aCad.matches(".+\\s*[+*]+\\s*")) {
                 //formulas.add(aCad.replaceAll(".+[*+]", aCad.replace("+", "")));
@@ -46,6 +75,12 @@ public class Bridge {
 
             else if(!(aCad.isEmpty())){
                 formulas.add(aCad);
+            }
+
+            for (String form: formulas) {
+                for (int i = 0; i < form.length(); i++){
+                    //form.charAt(i).matches();
+                }
             }
         }
 
@@ -66,7 +101,7 @@ public class Bridge {
     }
 
     public static void main(String[] args){
-        Bridge.tokenize("(! (a + b) * (c * d)) * d + f");
+        Bridge.tokenize("(! a + b) * (d + ! ! c)");
         //Bridge.tokenize("(! a + b) * c");
     }
 }

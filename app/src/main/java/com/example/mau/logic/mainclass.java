@@ -69,6 +69,29 @@ public class mainclass {
 
         return all;
     }
+    public static String run2 (String input)
+    {
+        ArrayList<String> all = new ArrayList<String>();
+        //all.add(input);
+
+        ordering zero = new ordering(input);
+        while(zero.run()){
+            zero = new ordering(zero.get_result());
+        }
+        merging(zero);
+
+        replace_iff one = new replace_iff(zero.get_result());
+        one.run();
+        all.add(one.get_result());
+        merging(one);
+
+        replace_imp two = new replace_imp(one.get_result());
+        two.run();
+        all.add(two.get_result());
+        merging(two);
+
+        return (two.my_stack.get(two.my_stack.size() - 1));
+    }
     public static void read(String equation){
 
         ArrayList<String> tmps = run(equation);
@@ -147,7 +170,7 @@ public class mainclass {
     }
 
     public static void main(String[] args){
-        String input = "(a imp b) * c";
+        String input = "(a imp b) * (! c imp d)";
         read(input);
     }
 }
